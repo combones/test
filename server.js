@@ -242,7 +242,7 @@ app.get('/api/characters/:id', function(req, res, next) {
 app.post('/api/characters', function(req, res, next) {
   var gender = req.body.gender;
   var characterName = req.body.name;
-  var characterIdLookupUrl = 'https://api.eveonline.com/eve/CharacterID.xml.aspx?names=' + characterName;
+  var characterIdLookupUrl = 'https://d1u1mce87gyfbn.cloudfront.net/hero/' + characterName + '/hero-select-portrait.png';
 
   var parser = new xml2js.Parser();
 
