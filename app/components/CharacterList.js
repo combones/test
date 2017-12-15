@@ -38,16 +38,14 @@ class CharacterList extends React.Component {
             <span className='position pull-left'>{index + 1}</span>
             <div className='pull-left thumb-lg'>
               <Link to={'/characters/' + character.characterId}>
-                <img className='media-object' src={'http://image.eveonline.com/Character/' + character.characterId + '_128.jpg'} />
+                <img className='media-object' src={'https://www.owfire.com/images/heroes/potrait/'+character.name+'.png'} />
               </Link>
             </div>
             <div className='media-body'>
               <h4 className='media-heading'>
                 <Link to={'/characters/' + character.characterId}>{character.name}</Link>
               </h4>
-              <small>Race: <strong>{character.race}</strong></small>
-              <br />
-              <small>Bloodline: <strong>{character.bloodline}</strong></small>
+              <small>Type: <strong>{character.type}</strong></small>
               <br />
               <small>Wins: <strong>{character.wins}</strong> Losses: <strong>{character.losses}</strong></small>
             </div>
