@@ -34,7 +34,7 @@ app.use(compression());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(favicon(path.join(__dirname, 'public', 'favicon.png')));
+app.use(favicon(path.join(__dirname, 'public', 'ow.png')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 /**
