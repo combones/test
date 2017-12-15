@@ -1,45 +1,30 @@
 import alt from '../alt';
-import AddCharacterActions from '../actions/AddCharacterActions';
 
-class AddCharacterStore {
+class AddCharacterActions {
   constructor() {
-    this.bindActions(AddCharacterActions);
-    this.name = '';
-    this.gender = '';
-    this.helpBlock = '';
-    this.nameValidationState = '';
-    this.genderValidationState = '';
+    this.generateActions(
+      'addCharacterSuccess',
+      'addCharacterFail',
+      'updateName',
+      'updatetype',
+      'invalidName',
+      'invalidtype'
+    );
   }
 
-  onAddCharacterSuccess(successMessage) {
-    this.nameValidationState = 'has-success';
-    this.helpBlock = successMessage;
-  }
-
-  onAddCharacterFail(errorMessage) {
-    this.nameValidationState = 'has-error';
-    this.helpBlock = errorMessage;
-  }
-
-  onUpdateName(event) {
-    this.name = event.target.value;
-    this.nameValidationState = '';
-    this.helpBlock = '';
-  }
-
-  onUpdateGender(event) {
-    this.gender = event.target.value;
-    this.genderValidationState = '';
-  }
-
-  onInvalidName() {
-    this.nameValidationState = 'has-error';
-    this.helpBlock = 'Please enter a character name.';
-  }
-
-  onInvalidGender() {
-    this.genderValidationState = 'has-error';
+  addCharacter(name, type) {
+    $.ajax({
+      type: 'POST',
+      url: '/api/characters',
+      data: { name: name, type: type }
+    })
+      .done((data) => {
+        this.actions.addCharacterSuccess(data.message);
+      })
+      .fail((jqXhr) => {
+        this.actions.addCharacterFail(jqXhr.responseJSON.message);
+      });
   }
 }
 
-export default alt.createStore(AddCharacterStore);
+export default alt.createActions(AddCharacterActions);
