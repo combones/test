@@ -44,15 +44,13 @@ class Character extends React.Component {
     return (
       <div className='container'>
         <div className='profile-img'>
-          <a ref='magnificPopup' className='magnific-popup' href={'https://image.eveonline.com/Character/' + this.state.characterId + '_1024.jpg'}>
-            <img src={'https://image.eveonline.com/Character/' + this.state.characterId + '_256.jpg'} />
+          <a ref='magnificPopup' className='magnific-popup' href={'https://www.owfire.com/images/heroes/potrait/'+this.state.name+'.png'}>
+            <img src={'https://www.owfire.com/images/heroes/potrait/'+this.state.name+'.png'} width="218.4" height="361.9" />
           </a>
         </div>
         <div className='profile-info clearfix'>
           <h2><strong>{this.state.name}</strong></h2>
-          <h4 className='lead'>Race: <strong>{this.state.race}</strong></h4>
-          <h4 className='lead'>Bloodline: <strong>{this.state.bloodline}</strong></h4>
-          <h4 className='lead'>Gender: <strong>{this.state.gender}</strong></h4>
+          <h4 className='lead'>Type: <strong>{this.state.type}</strong></h4>
           <button className='btn btn-transparent'
                   onClick={CharacterActions.report.bind(this, this.state.characterId)}
                   disabled={this.state.isReported}>
