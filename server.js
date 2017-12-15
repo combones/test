@@ -39,15 +39,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 /**
  * GET /api/characters
- * Returns 2 random characters of the same gender that have not been voted yet.
+ * Returns 2 random characters of the same type that have not been voted yet.
  */
 app.get('/api/characters', function(req, res, next) {
-  var choices = ['Female', 'Male'];
-  var randomGender = _.sample(choices);
+  var choices = ['Offense', 'Defense', 'Tank', 'Support'];
+  var randomtype = _.sample(choices);
 
   Character.find({ random: { $near: [Math.random(), 0] } })
     .where('voted', false)
-    .where('gender', randomGender)
+    .where('type', randomtype)
     .limit(2)
     .exec(function(err, characters) {
       if (err) return next(err);
@@ -56,12 +56,12 @@ app.get('/api/characters', function(req, res, next) {
         return res.send(characters);
       }
 
-      var oppositeGender = _.first(_.without(choices, randomGender));
+      var oppositetype = _.first(_.without(choices, randomtype));
 
       Character
         .find({ random: { $near: [Math.random(), 0] } })
         .where('voted', false)
-        .where('gender', oppositeGender)
+        .where('type', oppositetype)
         .limit(2)
         .exec(function(err, characters) {
           if (err) return next(err);
@@ -161,7 +161,7 @@ app.get('/api/characters/shame', function(req, res, next) {
 
 /**
  * GET /api/characters/top
- * Return 100 highest ranked characters. Filter by gender, race and bloodline.
+ * Return 100 highest ranked characters. Filter by type, race and bloodline.
  */
 app.get('/api/characters/top', function(req, res, next) {
   var params = req.query;
@@ -240,7 +240,7 @@ app.get('/api/characters/:id', function(req, res, next) {
  * Adds new character to the database.
  */
 app.post('/api/characters', function(req, res, next) {
-  var gender = req.body.gender;
+  var type = req.body.type;
   var characterName = req.body.name;
   var characterIdLookupUrl = 'https://api.eveonline.com/eve/CharacterID.xml.aspx?names=' + characterName;
 
@@ -287,7 +287,7 @@ app.post('/api/characters', function(req, res, next) {
               name: name,
               race: race,
               bloodline: bloodline,
-              gender: gender,
+              type: type,
               random: [Math.random(), 0]
             });
 
@@ -316,33 +316,23 @@ app.get('/api/stats', function(req, res, next) {
         });
       },
       function(callback) {
-        Character.count({ race: 'Amarr' }, function(err, amarrCount) {
-          callback(err, amarrCount);
+        Character.count({ type: 'Offense' }, function(err, OffenseCount) {
+          callback(err, OffenseCount);
         });
       },
       function(callback) {
-        Character.count({ race: 'Caldari' }, function(err, caldariCount) {
-          callback(err, caldariCount);
+        Character.count({ type: 'Defense' }, function(err, DefenseCount) {
+          callback(err, DefenseCount);
         });
       },
       function(callback) {
-        Character.count({ race: 'Gallente' }, function(err, gallenteCount) {
-          callback(err, gallenteCount);
+        Character.count({ type: 'Tank' }, function(err, TankCount) {
+          callback(err, TankCount);
         });
       },
       function(callback) {
-        Character.count({ race: 'Minmatar' }, function(err, minmatarCount) {
-          callback(err, minmatarCount);
-        });
-      },
-      function(callback) {
-        Character.count({ gender: 'Male' }, function(err, maleCount) {
-          callback(err, maleCount);
-        });
-      },
-      function(callback) {
-        Character.count({ gender: 'Female' }, function(err, femaleCount) {
-          callback(err, femaleCount);
+        Character.count({ type: 'Support' }, function(err, SupportCount) {
+          callback(err, SupportCount);
         });
       },
       function(callback) {
@@ -351,43 +341,7 @@ app.get('/api/stats', function(req, res, next) {
             callback(err, total);
           }
         );
-      },
-      function(callback) {
-        Character
-          .find()
-          .sort('-wins')
-          .limit(100)
-          .select('race')
-          .exec(function(err, characters) {
-            if (err) return next(err);
-
-            var raceCount = _.countBy(characters, function(character) { return character.race; });
-            var max = _.max(raceCount, function(race) { return race });
-            var inverted = _.invert(raceCount);
-            var topRace = inverted[max];
-            var topCount = raceCount[topRace];
-
-            callback(err, { race: topRace, count: topCount });
-          });
-      },
-      function(callback) {
-        Character
-          .find()
-          .sort('-wins')
-          .limit(100)
-          .select('bloodline')
-          .exec(function(err, characters) {
-            if (err) return next(err);
-
-            var bloodlineCount = _.countBy(characters, function(character) { return character.bloodline; });
-            var max = _.max(bloodlineCount, function(bloodline) { return bloodline });
-            var inverted = _.invert(bloodlineCount);
-            var topBloodline = inverted[max];
-            var topCount = bloodlineCount[topBloodline];
-
-            callback(err, { bloodline: topBloodline, count: topCount });
-          });
-      }
+      },  
     ],
     function(err, results) {
       if (err) return next(err);
