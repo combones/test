@@ -6,17 +6,17 @@ class AddCharacterActions {
       'addCharacterSuccess',
       'addCharacterFail',
       'updateName',
-      'updateGender',
+      'updatetype',
       'invalidName',
-      'invalidGender'
+      'invalidtype'
     );
   }
 
-  addCharacter(name, gender) {
+  addCharacter(name, type) {
     $.ajax({
       type: 'POST',
       url: '/api/characters',
-      data: { name: name, gender: gender }
+      data: { name: name, type: type }
     })
       .done((data) => {
         this.actions.addCharacterSuccess(data.message);
