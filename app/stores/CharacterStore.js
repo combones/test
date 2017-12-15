@@ -7,9 +7,7 @@ class CharacterStore {
     this.bindActions(CharacterActions);
     this.characterId = 0;
     this.name = 'TBD';
-    this.race = 'TBD';
-    this.bloodline = 'TBD';
-    this.gender = 'TBD';
+    this.type = 'TBD';
     this.wins = 0;
     this.losses = 0;
     this.winLossRatio = 0;
