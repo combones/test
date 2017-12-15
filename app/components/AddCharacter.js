@@ -25,19 +25,19 @@ class AddCharacter extends React.Component {
     event.preventDefault();
 
     var name = this.state.name.trim();
-    var gender = this.state.gender;
+    var type = this.state.type;
 
     if (!name) {
       AddCharacterActions.invalidName();
       this.refs.nameTextField.focus();
     }
 
-    if (!gender) {
-      AddCharacterActions.invalidGender();
+    if (!type) {
+      AddCharacterActions.invalidtype();
     }
 
-    if (name && gender) {
-      AddCharacterActions.addCharacter(name, gender);
+    if (name && type) {
+      AddCharacterActions.addCharacter(name, type);
     }
   }
 
@@ -56,16 +56,26 @@ class AddCharacter extends React.Component {
                            onChange={AddCharacterActions.updateName} autoFocus/>
                     <span className='help-block'>{this.state.helpBlock}</span>
                   </div>
-                  <div className={'form-group ' + this.state.genderValidationState}>
+                  <div className={'form-group ' + this.state.typeValidationState}>
                     <div className='radio radio-inline'>
-                      <input type='radio' name='gender' id='female' value='Female' checked={this.state.gender === 'Female'}
-                             onChange={AddCharacterActions.updateGender}/>
-                      <label htmlFor='female'>Female</label>
+                      <input type='radio' name='type' id='Offense' value='Offense' checked={this.state.type === 'Offense'}
+                             onChange={AddCharacterActions.updatetype}/>
+                      <label htmlFor='Offense'>Offense</label>
                     </div>
                     <div className='radio radio-inline'>
-                      <input type='radio' name='gender' id='male' value='Male' checked={this.state.gender === 'Male'}
-                             onChange={AddCharacterActions.updateGender}/>
-                      <label htmlFor='male'>Male</label>
+                      <input type='radio' name='type' id='Defense' value='Defense' checked={this.state.type === 'Defense'}
+                             onChange={AddCharacterActions.updatetype}/>
+                      <label htmlFor='Defense'>Defense</label>
+                    </div>
+                    <div className='radio radio-inline'>
+                      <input type='radio' name='type' id='Tank' value='Tank' checked={this.state.type === 'Tank'}
+                             onChange={AddCharacterActions.updatetype}/>
+                      <label htmlFor='Tank'>Tank</label>
+                    </div>
+                    <div className='radio radio-inline'>
+                      <input type='radio' name='type' id='Support' value='Support' checked={this.state.type === 'Support'}
+                             onChange={AddCharacterActions.updatetype}/>
+                      <label htmlFor='Support'>Support</label>
                     </div>
                   </div>
                   <button type='submit' className='btn btn-primary'>Submit</button>
