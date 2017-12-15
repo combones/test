@@ -15,10 +15,14 @@ class CharacterListActions {
       bloodline: payload.bloodline
     };
 
-    if (payload.category === 'female') {
-      params.gender = 'female';
-    } else if (payload.category === 'male') {
-      params.gender = 'male';
+    if (payload.category === 'Offense') {
+      params.type = 'Offense';
+    } else if (payload.category === 'Defense') {
+      params.type = 'Defense';
+    } else if (payload.category === 'Tank') {
+      params.type = 'Tank';
+    } else if (payload.category === 'Support') {
+      params.type = 'Support';
     }
 
     if (payload.category === 'shame') {
