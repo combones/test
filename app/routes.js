@@ -14,7 +14,6 @@ export default (
     <Route path='/characters/:id' component={Character} />
     <Route path='/add' component={AddCharacter} />
     <Route path=':category' component={CharacterList}>
-      </Route>
     </Route>
   </Route>
 );
